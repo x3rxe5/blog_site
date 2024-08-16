@@ -1,0 +1,137 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type User {
+  username: String!
+  email: String!
+  password: String!
+}
+
+type ResponseUserDto {
+  access_token: String
+}
+
+type reduxValidateToken {
+  access_token: String
+  success: Boolean
+}
+
+type Profile {
+  user_id: User!
+  firstName: String!
+  middleName: String
+  lastName: String!
+  profileImage: String!
+  profileImageKeyName: String
+}
+
+type Reply {
+  user_id: User!
+  comment_id: Comment!
+  reply_text: String!
+}
+
+type Comment {
+  user_id: User!
+  post_id: Post!
+  comment_description: String!
+  replies: [Reply!]!
+}
+
+type HashTag {
+  user_id: User!
+  post_id: [Post!]!
+  hashtag_text: String!
+}
+
+type Post {
+  user_id: User!
+  post_uuid: String!
+  post_caption: String!
+  post_image: String!
+  post_image_key: String!
+  post_likes: [User!]!
+  comments: [Comment!]!
+  hashtag: [HashTag!]!
+}
+
+type GetPostDtos {
+  post_uuid: String!
+  post_image: String!
+  post_caption: String!
+  hashtag: [String!]!
+}
+
+type ResponsePostDtos {
+  post_caption: String!
+  post_uuid: String!
+  post_image: String!
+  post_image_key: String!
+  hashtag: [String!]!
+}
+
+type TagRelatedPostsDtos {
+  hashtag_text: String!
+  posts: [Post!]!
+}
+
+type Query {
+  hello: String!
+  findUserByEmail(email: String!): User!
+  findUserByUsername(username: String!): User!
+  getAll: [User!]!
+  logout: Boolean!
+  validateUser: reduxValidateToken!
+  getProfile: Profile!
+  getPostByUser: [GetPostDtos!]!
+  getTagRelatedPosts(tag: String!): [TagRelatedPostsDtos!]!
+}
+
+type Mutation {
+  register(createUserInput: CreateUserDto!): ResponseUserDto!
+  login(loginUserInput: LoginUserDto!): ResponseUserDto!
+  deleteProfile: Boolean!
+  createProfile(profile: InputProfileDtos!): Profile!
+  updateProfile(profile: UpdateProfileDtos!): Profile!
+  createPost(postInput: InputPostDtos!): ResponsePostDtos!
+  createtag(tag: InputHashTagDtos!): HashTag!
+}
+
+input CreateUserDto {
+  username: String!
+  email: String!
+  password: String!
+}
+
+input LoginUserDto {
+  username: String!
+  password: String!
+}
+
+input InputProfileDtos {
+  firstName: String!
+  middleName: String
+  lastName: String!
+  profileImage: Upload!
+}
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
+
+input UpdateProfileDtos {
+  firstName: String
+  middleName: String
+  lastName: String
+  profileImage: Upload
+}
+
+input InputPostDtos {
+  post_caption: String!
+  post_image: Upload!
+  hashtag: [String!]!
+}
+
+input InputHashTagDtos {
+  hashtag_text: String!
+}
